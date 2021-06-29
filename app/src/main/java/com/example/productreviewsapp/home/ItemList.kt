@@ -24,12 +24,11 @@ class ItemList (private val itemList: List<Product>, private val context: Contex
 
         holder.description.text = item.description
         holder.name.text = item.name
-        holder.price.text = item.price.toString()
+        holder.price.text = item.price.toString() +  item.currency
 
         Glide
             .with(context)
             .load(item.imgUrl)
-            .centerCrop()
             .into(holder.image)
     }
 
