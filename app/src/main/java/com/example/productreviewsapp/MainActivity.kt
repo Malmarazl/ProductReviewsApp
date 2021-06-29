@@ -2,6 +2,7 @@ package com.example.productreviewsapp
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import androidx.fragment.app.Fragment
 import com.example.productreviewsapp.home.HomeFragment
 
