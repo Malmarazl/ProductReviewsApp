@@ -49,15 +49,15 @@ class HomeFragment: Fragment() {
 
         viewModel = HomeViewModel()
 
-        val recycler: RecyclerView = view.findViewById(R.id.recycler)
+        val recyclerProductList: RecyclerView = view.findViewById(R.id.recyclerProductList)
 
 
         viewModel.productList.observe(
             viewLifecycleOwner,{
                 adapter = ProductAdapter(it, requireContext(), productListener)
                 filterList = it
-                recycler.adapter = adapter
-                recycler.layoutManager = LinearLayoutManager(context)
+                recyclerProductList.adapter = adapter
+                recyclerProductList.layoutManager = LinearLayoutManager(context)
             }
         )
 
@@ -74,6 +74,7 @@ class HomeFragment: Fragment() {
             override fun onQueryTextChange(newText: String): Boolean {
                 if (newText.isEmpty())
                     adapter.updateList(filterList)
+
                 return false
             }
         })
