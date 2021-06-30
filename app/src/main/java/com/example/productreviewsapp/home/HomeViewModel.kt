@@ -18,7 +18,7 @@ class HomeViewModel : ViewModel() {
     }
 
     private suspend fun connectionToProductService() {
-        val response = ServiceAdapter().getApiService()?.getProduct()
+        val response = ServiceAdapter().getApiServiceProducts()?.getProduct()
         productList.postValue(response)
     }
 
