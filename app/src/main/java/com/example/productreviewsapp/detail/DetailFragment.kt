@@ -26,6 +26,7 @@ import com.example.productreviewsapp.models.Review
 class DetailFragment : Fragment() {
 
     lateinit var viewModel: DetailViewModel
+    lateinit var adapter: ReviewAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -89,11 +90,16 @@ class DetailFragment : Fragment() {
 
         viewModel.reviewList.observe(
             viewLifecycleOwner, {
-                val adapter = ReviewAdapter(it)
+                adapter = ReviewAdapter(it)
                 recyclerReviewList.adapter = adapter
                 recyclerReviewList.layoutManager = LinearLayoutManager(context)
             }
         )
+
+        viewModel.review.observe(
+            viewLifecycleOwner, {
+                viewModel.getReviews(productID)
+        })
 
         val buttonAddReview = view.findViewById<Button>(R.id.buttonAddReview)
 
