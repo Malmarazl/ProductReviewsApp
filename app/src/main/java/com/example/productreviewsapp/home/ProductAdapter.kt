@@ -29,7 +29,9 @@ class ProductAdapter (
 
         holder.description.text = item.description
         holder.name.text = item.name
-        holder.price.text = item.price.toString() +  item.currency
+
+        val price = item.price.toString() +  item.currency
+        holder.price.text = price
 
         Glide
             .with(context)
@@ -44,11 +46,11 @@ class ProductAdapter (
     override fun getItemCount(): Int = itemList.size
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val name: TextView = view.findViewById<TextView>(R.id.product_name)
-        val description: TextView = view.findViewById<TextView>(R.id.product_description)
-        val price: TextView = view.findViewById<TextView>(R.id.product_price)
-        val image: ImageView = view.findViewById<ImageView>(R.id.product_image)
-        val card: ConstraintLayout = view.findViewById<ConstraintLayout>(R.id.card)
+        val name: TextView = view.findViewById(R.id.product_name)
+        val description: TextView = view.findViewById(R.id.product_description)
+        val price: TextView = view.findViewById(R.id.product_price)
+        val image: ImageView = view.findViewById(R.id.product_image)
+        val card: ConstraintLayout = view.findViewById(R.id.card)
     }
 
     fun updateList(filteredList: List<Product>) {

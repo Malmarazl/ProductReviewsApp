@@ -18,7 +18,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="@dimen/low_margin"
         android:textSize="@dimen/small_size_value"
         android:textStyle="bold"
         android:textColor="@color/white"
@@ -39,7 +39,7 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_review"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="@dimen/high_margin"
         android:theme="@style/RatingBar"
         android:numStars="5"
         android:rating="3.5"/>

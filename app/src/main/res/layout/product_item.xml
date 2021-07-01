@@ -2,56 +2,67 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/card"
     android:layout_width="match_parent"
-    android:layout_height="200dp"
-    android:background="@drawable/border"
-    android:layout_margin="10dp"
-    android:padding="1dp"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="380dp"
+    android:layout_marginTop="@dimen/high_margin">
 
-    <ImageView
-        android:id="@+id/product_image"
-        android:layout_width="150dp"
-        android:layout_height="200dp"
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
-
-    <View android:background="#B3000000"
-          android:layout_height="50dp"
-          android:layout_width="match_parent"
-          app:layout_constraintTop_toTopOf="parent"/>
-
-    <TextView
-        android:id="@+id/product_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:textColor="@color/white"
-        android:layout_marginTop="8dp"
-        android:textSize="@dimen/default_value"
-        android:textStyle="bold"/>
+        app:cardElevation="3dp"
+        android:padding="@dimen/low_margin"
+        app:strokeWidth="1dp"
+        app:cardBackgroundColor="@color/lightBlack"
+        app:strokeColor="@color/lightBlack"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <TextView
-        android:id="@+id/product_description"
-        android:layout_width="220dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toRightOf="@+id/product_image"
-        android:textSize="@dimen/very_small_size_value"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_margin="@dimen/low_margin"
+            android:padding="1dp">
 
-    <TextView
-        android:id="@+id/product_price"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:textSize="@dimen/big_size_value"
-        android:textStyle="bold"
-        android:textColor="@color/black"
-        android:layout_marginBottom="5dp"
-        android:layout_marginEnd="5dp"/>
+            <ImageView
+                android:id="@+id/product_image"
+                android:layout_width="match_parent"
+                android:layout_height="194dp"
+                android:scaleType="centerCrop"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/default_padding">
 
+                <TextView
+                    android:id="@+id/product_name"
+                    android:layout_width="220dp"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/default_value"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/product_description"
+                    android:layout_width="220dp"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:layout_marginTop="@dimen/low_margin"
+                    android:textSize="@dimen/very_small_size_value"/>
+
+                <TextView
+                    android:id="@+id/product_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/default_margin"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/big_size_value"
+                    android:textStyle="bold"/>
+            </LinearLayout>
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
 </androidx.constraintlayout.widget.ConstraintLayout>
