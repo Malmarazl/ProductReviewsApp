@@ -1,25 +1,18 @@
 package com.example.productreviewsapp.detail
 
-import android.app.AlertDialog
-import android.app.Dialog
-import android.content.DialogInterface
 import android.os.Bundle
-import android.transition.Explode
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.ImageView
 import android.widget.TextView
-import androidx.activity.OnBackPressedCallback
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.productreviewsapp.R
 import com.example.productreviewsapp.helpers.DialogReviews
-import com.example.productreviewsapp.home.ProductAdapter
 import com.example.productreviewsapp.models.Review
 
 
@@ -27,13 +20,28 @@ class DetailFragment : Fragment() {
 
     lateinit var viewModel: DetailViewModel
     lateinit var adapter: ReviewAdapter
+    var productID = ""
+
+    private val newReviewListener = object: NewReviewListener {
+        override fun sendNewReview(text: String, starReview: Float) {
+
+            val newReview = Review()
+
+            newReview.text = text
+            newReview.productId = productID
+            newReview.locale = ""
+            newReview.rating = starReview
+
+            viewModel.addNewReview(newReview)
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.product_detail, container, false)
+        return inflater.inflate(R.layout.detail_fragment, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -42,47 +50,38 @@ class DetailFragment : Fragment() {
         viewModel = DetailViewModel()
 
         val bundle = this.arguments
-        var productID = ""
-
         if (bundle != null) {
-            productID = bundle.getString("productID", "0")
-
+            productID = bundle.getString(PRODUCT_ID, "0")
             viewModel.getProduct(productID)
         }
 
         val buttonBack = view.findViewById<Button>(R.id.buttonBack)
-
         buttonBack.setOnClickListener {
             requireActivity().onBackPressed()
         }
 
+        setObservers(view)
 
-        var newReviewListener = object: NewReviewListener {
-            override fun sendNewReview(newText: String, starReview: Float) {
-
-                var newReview: Review = Review()
-
-                newReview.text = newText
-                newReview.productId = productID
-                newReview.locale = ""
-                newReview.rating = starReview
-
-                viewModel.addNewReview(newReview)
-            }
+        val buttonAddReview = view.findViewById<Button>(R.id.buttonAddReview)
+        buttonAddReview.setOnClickListener {
+           DialogReviews(newReviewListener).show(childFragmentManager, "")
         }
+    }
 
+    private fun setObservers(view: View) {
         val recyclerReviewList: RecyclerView = view.findViewById(R.id.recyclerReviewsList)
 
         viewModel.product.observe(
             viewLifecycleOwner, {
                 view.findViewById<TextView>(R.id.product_name).text = it.name
                 view.findViewById<TextView>(R.id.product_description).text = it.description
-                view.findViewById<TextView>(R.id.product_price).text = it.price.toString() + it.currency
+                val currentPrice = it.price.toString() + it.currency
+                view.findViewById<TextView>(R.id.product_price).text = currentPrice
 
                 Glide
                     .with(this)
                     .load(it.imgUrl)
-                    .into(view.findViewById<ImageView>(R.id.product_image))
+                    .into(view.findViewById(R.id.product_image))
 
                 viewModel.getReviews(it.id)
             }
@@ -90,6 +89,7 @@ class DetailFragment : Fragment() {
 
         viewModel.reviewList.observe(
             viewLifecycleOwner, {
+
                 adapter = ReviewAdapter(it)
                 recyclerReviewList.adapter = adapter
                 recyclerReviewList.layoutManager = LinearLayoutManager(context)
@@ -99,12 +99,24 @@ class DetailFragment : Fragment() {
         viewModel.review.observe(
             viewLifecycleOwner, {
                 viewModel.getReviews(productID)
-        })
+            })
 
-        val buttonAddReview = view.findViewById<Button>(R.id.buttonAddReview)
+        viewModel.error.observe(
+            viewLifecycleOwner, {
+                viewModel.error.observe(
+                    viewLifecycleOwner, {
+                        view.findViewById<ConstraintLayout>(R.id.screen_error_detail).visibility = View.VISIBLE
+                        view.findViewById<Button>(R.id.button_retry).setOnClickListener {
+                            viewModel.getProduct(productID)
+                            viewModel.getReviews(productID)
+                            view.findViewById<ConstraintLayout>(R.id.screen_error_detail).visibility = View.GONE
+                        }
+                    }
+                )
+            })
+    }
 
-        buttonAddReview.setOnClickListener {
-           DialogReviews(newReviewListener).show(childFragmentManager, "")
-        }
+    companion object {
+        const val PRODUCT_ID = "productID"
     }
 }

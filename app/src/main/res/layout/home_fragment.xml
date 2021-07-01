@@ -15,12 +15,17 @@
         app:iconifiedByDefault="false"
         app:queryBackground="@null" />
 
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerProductList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="60dp"
         app:layout_constraintTop_toBottomOf="@+id/inputSearch"/>
+
+    <include layout="@layout/screen_error"
+        android:id="@+id/screen_error"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

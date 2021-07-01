@@ -1,5 +1,5 @@
 package com.example.productreviewsapp.detail
 
 interface NewReviewListener {
-    fun sendNewReview(newReview: String, starReview: Float)
+    fun sendNewReview(text: String, starReview: Float)
 }

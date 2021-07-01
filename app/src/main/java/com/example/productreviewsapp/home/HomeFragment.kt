@@ -4,7 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.SearchView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -40,16 +42,19 @@ class HomeFragment: Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.product_list, container, false)
+        return inflater.inflate(R.layout.home_fragment, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel = HomeViewModel()
+        setObservers(view)
+        inputSearchFunctionality(view)
+    }
 
+    private fun setObservers(view: View) {
         val recyclerProductList: RecyclerView = view.findViewById(R.id.recyclerProductList)
-
 
         viewModel.productList.observe(
             viewLifecycleOwner,{
@@ -60,12 +65,26 @@ class HomeFragment: Fragment() {
             }
         )
 
+        viewModel.error.observe(
+            viewLifecycleOwner, {
+                view.findViewById<ConstraintLayout>(R.id.screen_error).visibility = View.VISIBLE
+
+                view.findViewById<Button>(R.id.button_retry).setOnClickListener {
+                    viewModel.getProducts()
+                    view.findViewById<ConstraintLayout>(R.id.screen_error).visibility = View.GONE
+                }
+            }
+        )
+    }
+
+    private fun inputSearchFunctionality(view: View) {
+
         view.findViewById<androidx.appcompat.widget.SearchView>(R.id.inputSearch).setOnQueryTextListener(object : SearchView.OnQueryTextListener,
             androidx.appcompat.widget.SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
 
-                    val filteredList: List<Product> = filterList.filter { it.name == query || it.description == query}
-                    adapter.updateList(filteredList)
+                val filteredList: List<Product> = filterList.filter { it.name == query || it.description == query}
+                adapter.updateList(filteredList)
 
                 return false
             }

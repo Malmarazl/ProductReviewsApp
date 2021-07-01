@@ -9,10 +9,11 @@
         android:id="@+id/buttonBack"
         android:layout_width="100dp"
         android:layout_height="40dp"
-        android:text="Back"
+        android:text="@string/button_back"
         android:textColor="@color/white"
         app:layout_constraintLeft_toLeftOf="parent"
         android:layout_marginBottom="80dp"
+        android:stateListAnimator="@null"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
@@ -32,9 +33,8 @@
         app:layout_constraintTop_toBottomOf="@+id/product_image"
         android:layout_marginTop="30dp"
         android:textColor="@color/black"
-        android:textSize="23dp"
-        android:textStyle="bold"
-        android:text="Name" />
+        android:textSize="@dimen/default_value"
+        android:textStyle="bold"/>
 
     <TextView
         android:id="@+id/product_description"
@@ -44,8 +44,7 @@
         app:layout_constraintTop_toBottomOf="@+id/product_name"
         android:textColor="@color/black"
         android:layout_marginTop="5dp"
-        android:textSize="18dp"
-        android:text="Description" />
+        android:textSize="@dimen/small_size_value"/>
 
     <TextView
         android:id="@+id/product_price"
@@ -54,15 +53,14 @@
         app:layout_constraintTop_toBottomOf="@+id/product_image"
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginTop="50dp"
-        android:textSize="25dp"
+        android:textSize="@dimen/big_size_value"
         android:textStyle="bold"
-        android:textColor="@color/black"
-        android:text="15$"/>
+        android:textColor="@color/black"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerReviewsList"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="260dp"
         android:layout_marginTop="30dp"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/product_description"/>
@@ -71,10 +69,18 @@
         android:id="@+id/buttonAddReview"
         android:layout_width="150dp"
         android:layout_height="40dp"
-        android:text="Add review"
+        android:text="@string/button_add_review"
         android:textColor="@color/white"
+        android:stateListAnimator="@null"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recyclerReviewsList"/>
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+
+    <include layout="@layout/screen_error"
+        android:id="@+id/screen_error_detail"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"/>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

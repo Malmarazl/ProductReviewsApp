@@ -3,4 +3,8 @@
     <string name="title_dialog">Write a review</string>
     <string name="button_send_review">Send review</string>
     <string name="button_cancel">Cancel</string>
+    <string name="error_message">Something went wrong</string>
+    <string name="button_try_again">Try again</string>
+    <string name="button_add_review">Add review</string>
+    <string name="button_back">Back</string>
 </resources>
