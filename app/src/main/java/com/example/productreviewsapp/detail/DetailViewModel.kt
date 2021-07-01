@@ -7,12 +7,14 @@ import com.example.productreviewsapp.models.Product
 import com.example.productreviewsapp.models.Review
 import com.example.productreviewsapp.services.ServiceAdapter
 import kotlinx.coroutines.launch
+import java.lang.Exception
 
 class DetailViewModel : ViewModel() {
 
     val product = MutableLiveData<Product>()
     val reviewList = MutableLiveData<List<Review>>()
     val review = MutableLiveData<Review>()
+    val error = MutableLiveData<String>()
 
     fun getProduct(productID: String) {
         viewModelScope.launch {
@@ -33,19 +35,29 @@ class DetailViewModel : ViewModel() {
     }
 
     private suspend fun connectionToProductService(productID: String) {
-
-       val response = ServiceAdapter().getApiServiceProducts()?.getProductID(productID)
-        product.postValue(response)
+        try {
+            val response = ServiceAdapter().getApiServiceProducts()?.getProductID(productID)
+            product.postValue(response)
+        } catch (e: Exception){
+            error.postValue(e.message)
+        }
     }
 
     private suspend fun connectionToReviewService(productID: String) {
-
-        val response = ServiceAdapter().getApiServiceReviews()?.getReviews(productID)
-        reviewList.postValue(response)
+        try {
+            val response = ServiceAdapter().getApiServiceReviews()?.getReviews(productID)
+            reviewList.postValue(response)
+        } catch (e: Exception) {
+            error.postValue(e.message)
+        }
     }
 
     private suspend fun connectionToNewReviewService(newReview: Review) {
-        val response = ServiceAdapter().getApiServiceReviews()?.addReview(newReview.productId, newReview)
-        review.postValue(response)
+        try{
+            val response = ServiceAdapter().getApiServiceReviews()?.addReview(newReview.productId, newReview)
+            review.postValue(response)
+        } catch (e: Exception) {
+            error.postValue(e.message)
+        }
     }
 }
