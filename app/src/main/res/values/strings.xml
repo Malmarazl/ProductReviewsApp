@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Sport Shop</string>
+    <string name="app_name">Adidas Shop</string>
     <string name="title_dialog">Write a review</string>
     <string name="button_send_review">Send review</string>
     <string name="button_cancel">Cancel</string>

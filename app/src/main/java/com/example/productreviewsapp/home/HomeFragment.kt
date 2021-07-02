@@ -82,16 +82,16 @@ class HomeFragment: Fragment() {
         view.findViewById<androidx.appcompat.widget.SearchView>(R.id.inputSearch).setOnQueryTextListener(object : SearchView.OnQueryTextListener,
             androidx.appcompat.widget.SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
-
-                val filteredList: List<Product> = filterList.filter { it.name == query || it.description == query}
-                adapter.updateList(filteredList)
-
                 return false
             }
 
             override fun onQueryTextChange(newText: String): Boolean {
-                if (newText.isEmpty())
-                    adapter.updateList(filterList)
+
+                val filteredList: List<Product> = filterList.filter { it.name.lowercase().contains(newText.lowercase()) || it.description.lowercase().contains(newText.lowercase()) }
+                adapter.updateList(filteredList)
+
+                if (newText.isEmpty()) adapter.updateList(filterList)
+
                 return false
             }
         })
