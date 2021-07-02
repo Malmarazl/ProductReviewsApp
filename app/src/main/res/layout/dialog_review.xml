@@ -6,7 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <View
-        android:background="#B3000000"
+        android:background="@color/lightBlack"
         android:layout_height="50dp"
         android:layout_width="match_parent"
         app:layout_constraintTop_toTopOf="parent"/>
@@ -18,12 +18,11 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginTop="@dimen/low_margin"
+        android:layout_marginTop="12dp"
         android:textSize="@dimen/small_size_value"
         android:textStyle="bold"
         android:textColor="@color/white"
         android:text="@string/title_dialog"/>
-
 
     <EditText
         android:id="@+id/text_review"
@@ -39,7 +38,7 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_review"
-        android:layout_marginTop="@dimen/high_margin"
+        android:layout_marginTop="@dimen/default_margin"
         android:theme="@style/RatingBar"
         android:numStars="5"
         android:rating="3.5"/>

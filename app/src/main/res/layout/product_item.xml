@@ -2,7 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/card"
     android:layout_width="match_parent"
-    android:layout_height="380dp"
+    android:layout_height="340dp"
     android:layout_marginTop="@dimen/high_margin">
 
     <com.google.android.material.card.MaterialCardView
@@ -11,58 +11,66 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:cardElevation="3dp"
-        android:padding="@dimen/low_margin"
         app:strokeWidth="1dp"
-        app:cardBackgroundColor="@color/lightBlack"
-        app:strokeColor="@color/lightBlack"
+        app:cardBackgroundColor="@color/grey"
+        app:strokeColor="@color/grey"
         xmlns:app="http://schemas.android.com/apk/res-auto">
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_margin="@dimen/low_margin"
-            android:padding="1dp">
+            android:orientation="vertical">
 
             <ImageView
                 android:id="@+id/product_image"
                 android:layout_width="match_parent"
                 android:layout_height="194dp"
-                android:scaleType="centerCrop"
+                android:scaleType="fitCenter"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent"/>
 
-            <LinearLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
+                android:background="@color/white"
+                app:layout_constraintTop_toBottomOf="@id/product_image"
                 android:padding="@dimen/default_padding">
 
                 <TextView
                     android:id="@+id/product_name"
                     android:layout_width="220dp"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/white"
+                    android:textColor="@color/lightBlack"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
                     android:textSize="@dimen/default_value"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold"
+                    android:text="Name"/>
 
                 <TextView
                     android:id="@+id/product_description"
                     android:layout_width="220dp"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/white"
+                    android:textColor="@color/lightBlack"
+                    app:layout_constraintTop_toBottomOf="@id/product_name"
+                    app:layout_constraintLeft_toLeftOf="parent"
                     android:layout_marginTop="@dimen/low_margin"
-                    android:textSize="@dimen/very_small_size_value"/>
+                    android:textSize="@dimen/very_small_size_value"
+                    android:text="Description"/>
 
                 <TextView
                     android:id="@+id/product_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/default_margin"
-                    android:textColor="@color/white"
+                    android:textColor="@color/lightBlack"
+                    app:layout_constraintTop_toBottomOf="@id/product_description"
+                    app:layout_constraintLeft_toLeftOf="parent"
                     android:textSize="@dimen/big_size_value"
-                    android:textStyle="bold"/>
-            </LinearLayout>
-        </LinearLayout>
+                    android:textStyle="bold"
+                    android:text="25$"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
 </androidx.constraintlayout.widget.ConstraintLayout>

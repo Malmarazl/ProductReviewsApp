@@ -14,6 +14,7 @@ import com.bumptech.glide.Glide
 import com.example.productreviewsapp.R
 import com.example.productreviewsapp.helpers.DialogReviews
 import com.example.productreviewsapp.models.Review
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 
 class DetailFragment : Fragment() {
@@ -62,7 +63,7 @@ class DetailFragment : Fragment() {
 
         setObservers(view)
 
-        val buttonAddReview = view.findViewById<Button>(R.id.buttonAddReview)
+        val buttonAddReview = view.findViewById<FloatingActionButton>(R.id.buttonAddReview)
         buttonAddReview.setOnClickListener {
            DialogReviews(newReviewListener).show(childFragmentManager, "")
         }
