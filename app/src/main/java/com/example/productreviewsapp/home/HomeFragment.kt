@@ -4,23 +4,19 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.SearchView
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.productreviewsapp.MainActivity
 import com.example.productreviewsapp.R
 import com.example.productreviewsapp.detail.DetailFragment
-import com.example.productreviewsapp.models.Product
+import kotlinx.android.synthetic.main.home_fragment.*
+import kotlinx.android.synthetic.main.screen_error.*
 
 class HomeFragment: Fragment() {
 
     lateinit var viewModel: HomeViewModel
     lateinit var adapter: ProductAdapter
-    lateinit var filterList: List<Product>
-
 
     private var productListener = object: ProductListener {
         override fun sendProductID(id: String) {
@@ -28,7 +24,7 @@ class HomeFragment: Fragment() {
             val detailFragment = DetailFragment()
             val bundle = Bundle()
 
-            bundle.putString("productID", id)
+            bundle.putString(PRODUCT_ID, id)
             detailFragment.arguments = bundle
 
             view?.let{
@@ -49,37 +45,40 @@ class HomeFragment: Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel = HomeViewModel()
-        setObservers(view)
+        setObservers()
         inputSearchFunctionality(view)
+        viewModel.getProducts()
     }
 
-    private fun setObservers(view: View) {
-        val recyclerProductList: RecyclerView = view.findViewById(R.id.recyclerProductList)
-
+    private fun setObservers() {
         viewModel.productList.observe(
             viewLifecycleOwner,{
                 adapter = ProductAdapter(it, requireContext(), productListener)
-                filterList = it
                 recyclerProductList.adapter = adapter
                 recyclerProductList.layoutManager = LinearLayoutManager(context)
             }
         )
 
+        viewModel.filtereredList.observe(
+            viewLifecycleOwner, {
+                adapter.updateList(it)
+            }
+        )
+
         viewModel.error.observe(
             viewLifecycleOwner, {
-                view.findViewById<ConstraintLayout>(R.id.screen_error).visibility = View.VISIBLE
+                screen_error.visibility = View.VISIBLE
 
-                view.findViewById<Button>(R.id.button_retry).setOnClickListener {
+                button_retry.setOnClickListener {
                     viewModel.getProducts()
-                    view.findViewById<ConstraintLayout>(R.id.screen_error).visibility = View.GONE
+                    screen_error.visibility = View.GONE
                 }
             }
         )
     }
 
     private fun inputSearchFunctionality(view: View) {
-
-        view.findViewById<androidx.appcompat.widget.SearchView>(R.id.inputSearch).setOnQueryTextListener(object : SearchView.OnQueryTextListener,
+       inputSearch.setOnQueryTextListener(object : SearchView.OnQueryTextListener,
             androidx.appcompat.widget.SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
                 return false
@@ -87,15 +86,14 @@ class HomeFragment: Fragment() {
 
             override fun onQueryTextChange(newText: String): Boolean {
 
-                val filteredList: List<Product> = filterList.filter { it.name.lowercase().contains(newText.lowercase()) || it.description.lowercase().contains(newText.lowercase()) }
-                adapter.updateList(filteredList)
-
-                if (newText.isEmpty()) adapter.updateList(filterList)
+                viewModel.filterList(newText)
 
                 return false
             }
         })
+    }
 
-        viewModel.getProducts()
+    companion object {
+        const val PRODUCT_ID = "productID"
     }
 }
