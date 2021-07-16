@@ -2,9 +2,9 @@ package com.example.productreviewsapp.models
 
 import com.google.gson.annotations.SerializedName
 
-data class Product (@SerializedName("currency") var currency: String,
-                    @SerializedName("price") var price: Int,
-                    @SerializedName("name") var name: String,
-                    @SerializedName("description") var description: String,
-                    @SerializedName("id") var id: String,
-                    @SerializedName("imgUrl") var imgUrl: String)
+data class Product (@SerializedName("currency") val currency: String,
+                    @SerializedName("price") val price: Int,
+                    @SerializedName("name") val name: String,
+                    @SerializedName("description") val description: String,
+                    @SerializedName("id") val id: String,
+                    @SerializedName("imgUrl") val imgUrl: String)

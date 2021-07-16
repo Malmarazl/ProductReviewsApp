@@ -5,19 +5,19 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class ServiceAdapter {
+object ServiceAdapter {
 
-    private var API_SERVICE_PRODUCTS: ApiService? = null
-    private var API_SERVICE_REVIEWS: ApiService? = null
+    private var API_SERVICE_PRODUCTS: ProductService? = null
+    private var API_SERVICE_REVIEWS: ReviewService? = null
 
-    fun getApiServiceProducts(): ApiService? {
+    fun getApiServiceProducts(): ProductService? {
         val logging = HttpLoggingInterceptor()
         logging.level = HttpLoggingInterceptor.Level.BODY
 
         val httpClient = OkHttpClient.Builder()
         httpClient.addInterceptor(logging)
 
-        val baseUrl = "http://192.168.178.221:3001"
+        val baseUrl = "http://localhost:3001"
 
         if (API_SERVICE_PRODUCTS == null) {
             val retrofit = Retrofit.Builder()
@@ -25,20 +25,20 @@ class ServiceAdapter {
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(httpClient.build())
                 .build()
-            API_SERVICE_PRODUCTS = retrofit.create(ApiService::class.java)
+            API_SERVICE_PRODUCTS = retrofit.create(ProductService::class.java)
         }
 
         return API_SERVICE_PRODUCTS
     }
 
-    fun getApiServiceReviews(): ApiService? {
+    fun getApiServiceReviews(): ReviewService? {
         val logging = HttpLoggingInterceptor()
         logging.level = HttpLoggingInterceptor.Level.BODY
 
         val httpClient = OkHttpClient.Builder()
         httpClient.addInterceptor(logging)
 
-        val baseUrl = "http://192.168.178.221:3002"
+        val baseUrl = "http://localhost:3002"
 
         if (API_SERVICE_REVIEWS == null) {
             val retrofit = Retrofit.Builder()
@@ -46,7 +46,7 @@ class ServiceAdapter {
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(httpClient.build())
                 .build()
-            API_SERVICE_REVIEWS = retrofit.create(ApiService::class.java)
+            API_SERVICE_REVIEWS = retrofit.create(ReviewService::class.java)
         }
 
         return API_SERVICE_REVIEWS

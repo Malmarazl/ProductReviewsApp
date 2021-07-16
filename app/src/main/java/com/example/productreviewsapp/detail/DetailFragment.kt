@@ -4,17 +4,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.TextView
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.productreviewsapp.R
 import com.example.productreviewsapp.helpers.DialogReviews
 import com.example.productreviewsapp.models.Review
-import com.google.android.material.floatingactionbutton.FloatingActionButton
+import kotlinx.android.synthetic.main.detail_fragment.*
+import kotlinx.android.synthetic.main.screen_error.*
 
 
 class DetailFragment : Fragment() {
@@ -26,12 +23,12 @@ class DetailFragment : Fragment() {
     private val newReviewListener = object: NewReviewListener {
         override fun sendNewReview(text: String, starReview: Float) {
 
-            val newReview = Review()
-
-            newReview.text = text
-            newReview.productId = productID
-            newReview.locale = ""
-            newReview.rating = starReview
+            val newReview = Review(
+                text = text,
+                productId = productID,
+                locale = "",
+                rating = starReview
+            )
 
             viewModel.addNewReview(newReview)
         }
@@ -56,33 +53,29 @@ class DetailFragment : Fragment() {
             viewModel.getProduct(productID)
         }
 
-        val buttonBack = view.findViewById<Button>(R.id.buttonBack)
         buttonBack.setOnClickListener {
             requireActivity().onBackPressed()
         }
 
         setObservers(view)
 
-        val buttonAddReview = view.findViewById<FloatingActionButton>(R.id.buttonAddReview)
         buttonAddReview.setOnClickListener {
            DialogReviews(newReviewListener).show(childFragmentManager, "")
         }
     }
 
     private fun setObservers(view: View) {
-        val recyclerReviewList: RecyclerView = view.findViewById(R.id.recyclerReviewsList)
-
         viewModel.product.observe(
             viewLifecycleOwner, {
-                view.findViewById<TextView>(R.id.product_name).text = it.name
-                view.findViewById<TextView>(R.id.product_description).text = it.description
+                product_name.text = it.name
+                product_description.text = it.description
                 val currentPrice = it.price.toString() + it.currency
-                view.findViewById<TextView>(R.id.product_price).text = currentPrice
+                product_price.text = currentPrice
 
                 Glide
                     .with(this)
                     .load(it.imgUrl)
-                    .into(view.findViewById(R.id.product_image))
+                    .into(product_image)
 
                 viewModel.getReviews(it.id)
             }
@@ -92,8 +85,8 @@ class DetailFragment : Fragment() {
             viewLifecycleOwner, {
 
                 adapter = ReviewAdapter(it)
-                recyclerReviewList.adapter = adapter
-                recyclerReviewList.layoutManager = LinearLayoutManager(context)
+                recyclerReviewsList.adapter = adapter
+                recyclerReviewsList.layoutManager = LinearLayoutManager(context)
             }
         )
 
@@ -104,16 +97,11 @@ class DetailFragment : Fragment() {
 
         viewModel.error.observe(
             viewLifecycleOwner, {
-                viewModel.error.observe(
-                    viewLifecycleOwner, {
-                        view.findViewById<ConstraintLayout>(R.id.screen_error_detail).visibility = View.VISIBLE
-                        view.findViewById<Button>(R.id.button_retry).setOnClickListener {
+                        screen_error_detail.visibility = View.VISIBLE
+                        button_retry.setOnClickListener {
                             viewModel.getProduct(productID)
-                            viewModel.getReviews(productID)
-                            view.findViewById<ConstraintLayout>(R.id.screen_error_detail).visibility = View.GONE
+                            screen_error_detail.visibility = View.GONE
                         }
-                    }
-                )
             })
     }
 

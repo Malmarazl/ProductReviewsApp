@@ -1,5 +1,6 @@
 package com.example.productreviewsapp.detail
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -11,10 +12,15 @@ import java.lang.Exception
 
 class DetailViewModel : ViewModel() {
 
-    val product = MutableLiveData<Product>()
-    val reviewList = MutableLiveData<List<Review>>()
-    val review = MutableLiveData<Review>()
-    val error = MutableLiveData<String>()
+    private val _product = MutableLiveData<Product>()
+    private val _reviewList = MutableLiveData<List<Review>>()
+    private val _review = MutableLiveData<Review>()
+    private val _error = MutableLiveData<String>()
+
+    val product: LiveData<Product> = _product
+    val reviewList: LiveData<List<Review>> = _reviewList
+    val review: LiveData<Review> = _review
+    val error: LiveData<String> = _error
 
     fun getProduct(productID: String) {
         viewModelScope.launch {
@@ -36,28 +42,28 @@ class DetailViewModel : ViewModel() {
 
     private suspend fun connectionToProductService(productID: String) {
         try {
-            val response = ServiceAdapter().getApiServiceProducts()?.getProductID(productID)
-            product.postValue(response)
+            val response = ServiceAdapter.getApiServiceProducts()?.getProductID(productID)
+            _product.postValue(response)
         } catch (e: Exception){
-            error.postValue(e.message)
+            _error.postValue(e.message)
         }
     }
 
     private suspend fun connectionToReviewService(productID: String) {
         try {
-            val response = ServiceAdapter().getApiServiceReviews()?.getReviews(productID)
-            reviewList.postValue(response)
+            val response = ServiceAdapter.getApiServiceReviews()?.getReviews(productID)
+            _reviewList.postValue(response)
         } catch (e: Exception) {
-            error.postValue(e.message)
+            _error.postValue(e.message)
         }
     }
 
     private suspend fun connectionToNewReviewService(newReview: Review) {
         try{
-            val response = ServiceAdapter().getApiServiceReviews()?.addReview(newReview.productId, newReview)
-            review.postValue(response)
+            val response = ServiceAdapter.getApiServiceReviews()?.addReview(newReview.productId, newReview)
+            _review.postValue(response)
         } catch (e: Exception) {
-            error.postValue(e.message)
+            _error.postValue(e.message)
         }
     }
 }

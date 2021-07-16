@@ -1,5 +1,6 @@
 package com.example.productreviewsapp.home
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -10,8 +11,13 @@ import java.lang.Exception
 
 class HomeViewModel : ViewModel() {
 
-    val productList = MutableLiveData<List<Product>>()
-    val error = MutableLiveData<String>()
+    private val _productList = MutableLiveData<List<Product>>()
+    private val _filteredList = MutableLiveData<List<Product>>()
+    private val _error = MutableLiveData<String>()
+
+    val productList:  LiveData<List<Product>> = _productList
+    val error: LiveData<String> = _error
+    val filtereredList = _filteredList
 
     fun getProducts() {
         viewModelScope.launch {
@@ -21,12 +27,23 @@ class HomeViewModel : ViewModel() {
 
     private suspend fun connectionToProductService() {
         try {
-            val response = ServiceAdapter().getApiServiceProducts()?.getProduct()
-            productList.postValue(response)
+            val response = ServiceAdapter.getApiServiceProducts()?.getProduct()
+            _productList.postValue(response)
         } catch (e: Exception) {
-            error.postValue(e.message)
+            _error.postValue(e.message)
         }
 
     }
 
+    fun filterList(filterText :String) {
+        if (filterText.isEmpty())
+            _filteredList.postValue(productList.value)
+        else {
+            _productList.postValue(
+                _filteredList.value?.filter {
+                    it.name.lowercase().contains(filterText.lowercase()) || it.description.lowercase().contains(filterText.lowercase())
+                }
+            )
+        }
+    }
 }
