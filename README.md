@@ -1,6 +1,6 @@
 # ProductReviewsApp
 
-Application to show products, details products, and reviews for each product.
+Application to show products, details products, and reviews for each product. In addition, you can add reviews or show error message if something was failed.
 
 # About the application.
 - The application use MVVM pattern for the project instead of using a normal MVP pattern, I think observers are a faster way to communicate between views and allow the developer to control all the logic data into the ViewModel to return clean data to the view.
